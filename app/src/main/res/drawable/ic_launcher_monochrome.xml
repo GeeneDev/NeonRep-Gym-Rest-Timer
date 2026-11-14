@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- Gym Reps mark: rest-timer ring with a stopwatch crown around a tilted dumbbell -->
+    <path android:pathData="M62.43,33.14A22.5,22.5 0 1 1 34.51,42.75"
+        android:strokeColor="#FFFFFFFF" android:strokeWidth="5.5" android:strokeLineCap="round" />
+    <path android:pathData="M50.60,23.00H57.40A1.6,1.6 0 0 1 59.00,24.60V25.60A1.6,1.6 0 0 1 57.40,27.20H50.60A1.6,1.6 0 0 1 49.00,25.60V24.60A1.6,1.6 0 0 1 50.60,23.00ZM53.00,26.00H55.00A0.6,0.6 0 0 1 55.60,26.60V29.90A0.6,0.6 0 0 1 55.00,30.50H53.00A0.6,0.6 0 0 1 52.40,29.90V26.60A0.6,0.6 0 0 1 53.00,26.00Z"
+        android:fillColor="#FFFFFFFF" />
+    <group android:pivotX="54" android:pivotY="54" android:rotation="-30">
+        <path android:pathData="M39.90,48.00H40.70A1.4,1.4 0 0 1 42.10,49.40V58.60A1.4,1.4 0 0 1 40.70,60.00H39.90A1.4,1.4 0 0 1 38.50,58.60V49.40A1.4,1.4 0 0 1 39.90,48.00ZM43.50,44.50H45.10A1.8,1.8 0 0 1 46.90,46.30V61.70A1.8,1.8 0 0 1 45.10,63.50H43.50A1.8,1.8 0 0 1 41.70,61.70V46.30A1.8,1.8 0 0 1 43.50,44.50ZM47.40,52.00H60.60A1.0,1.0 0 0 1 61.60,53.00V55.00A1.0,1.0 0 0 1 60.60,56.00H47.40A1.0,1.0 0 0 1 46.40,55.00V53.00A1.0,1.0 0 0 1 47.40,52.00ZM62.90,44.50H64.50A1.8,1.8 0 0 1 66.30,46.30V61.70A1.8,1.8 0 0 1 64.50,63.50H62.90A1.8,1.8 0 0 1 61.10,61.70V46.30A1.8,1.8 0 0 1 62.90,44.50ZM67.30,48.00H68.10A1.4,1.4 0 0 1 69.50,49.40V58.60A1.4,1.4 0 0 1 68.10,60.00H67.30A1.4,1.4 0 0 1 65.90,58.60V49.40A1.4,1.4 0 0 1 67.30,48.00Z"
+            android:fillColor="#FFFFFFFF" />
+    </group>
+</vector>

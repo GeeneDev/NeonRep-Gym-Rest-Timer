@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Timer notification body. The Chronometer ticks inside the system UI, so the time keeps
+     moving even when the app's process is frozen or killed by the battery manager. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/notif_title"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/notif_text"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1" />
+    </LinearLayout>
+
+    <Chronometer
+        android:id="@+id/notif_chrono"
+        android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+</LinearLayout>

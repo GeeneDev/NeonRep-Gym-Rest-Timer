@@ -13,3 +13,17 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Release signing (back these up outside git)
+keystore.properties
+*.jks
+*.keystore
+# Local scratch backups
+*.bak*
+.claude-backup-*/
+.phone-lock
+backups-*/
+*-screens/
+/screenshots/
+/release/
+*.aab
