@@ -1,6 +1,10 @@
 # GymReps: Play Console answers (draft)
 
-## Privacy policy (host it, for example on GitHub Pages or Google Sites, and paste the URL)
+## Privacy policy
+
+URL to paste in Play Console: https://geenedev.github.io/NeonRep-Gym-Rest-Timer/privacy.html (Italian: privacy-it.html, Spanish: privacy-es.html). Source: docs/ in this repo, served by GitHub Pages.
+
+Original draft text (the live page supersedes it):
 
 **Gym Reps Privacy Policy** (last updated 14 November 2026)
 

@@ -25,6 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.LocalCafe
 import androidx.compose.material.icons.filled.MailOutline
+import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -51,7 +52,7 @@ import com.geenedev.gymreps.ui.theme.PrussianBlue
 private const val FEEDBACK_EMAIL = "biagiodev1701@duck.com"
 private const val KOFI_LINK_0 = "https://ko-fi.com/ebg"
 
-/** Info page: language, feedback contact and the Ko-fi link. A full-screen layer like Groups. */
+/** Info page: language, feedback contact, the Ko-fi link and the privacy policy. A full-screen layer like Groups. */
 @Composable
 fun InfoScreen(onDismiss: () -> Unit) {
     val context = LocalContext.current
@@ -94,6 +95,18 @@ fun InfoScreen(onDismiss: () -> Unit) {
                         Text(stringResource(R.string.info_kofi), style = MaterialTheme.typography.bodyLarge)
                         Text(
                             KOFI_LINK_0,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.primary,
+                            textDecoration = TextDecoration.Underline,
+                        )
+                    }
+                    val privacyUrl = stringResource(R.string.privacy_url)
+                    InfoCard(
+                        icon = Icons.Filled.PrivacyTip,
+                        onClick = { open(Intent(Intent.ACTION_VIEW, Uri.parse(privacyUrl))) },
+                    ) {
+                        Text(
+                            stringResource(R.string.info_privacy),
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.primary,
                             textDecoration = TextDecoration.Underline,
