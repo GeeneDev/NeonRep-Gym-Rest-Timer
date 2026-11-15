@@ -1,5 +1,8 @@
 package com.geenedev.gymreps.ui
 
+import androidx.compose.ui.res.stringResource
+import com.geenedev.gymreps.R
+
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -121,17 +124,17 @@ fun CyberCore(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 if (!running) {
                     Icon(Icons.Filled.PlayArrow, contentDescription = null, modifier = Modifier.size(44.dp))
-                    CoreText("START", 24.sp, FontWeight.Black)
+                    CoreText(stringResource(R.string.core_start), 24.sp, FontWeight.Black)
                 } else {
                     // Set counter, then what a tap does, then the times.
                     CoreText("${session.sets}", 46.sp, FontWeight.Black)
                     if (resting) {
                         CoreText(Workout.formatDuration(restLeft + 999), 18.sp, FontWeight.Bold)
                     } else {
-                        CoreText("GO!", 18.sp, FontWeight.Black)
+                        CoreText(stringResource(R.string.core_go), 18.sp, FontWeight.Black)
                     }
                     CoreText(
-                        if (resting) "TOTAL ${Workout.formatDuration(totalMs)}"
+                        if (resting) stringResource(R.string.core_total, Workout.formatDuration(totalMs))
                         else "${Workout.formatDuration(workMs)} · ${Workout.formatDuration(totalMs)}",
                         11.sp,
                         FontWeight.Normal,

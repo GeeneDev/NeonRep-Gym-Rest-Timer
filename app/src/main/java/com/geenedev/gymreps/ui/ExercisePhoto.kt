@@ -1,5 +1,8 @@
 package com.geenedev.gymreps.ui
 
+import androidx.compose.ui.res.stringResource
+import com.geenedev.gymreps.R
+
 import android.content.ActivityNotFoundException
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -85,7 +88,7 @@ fun ExercisePhotoButton(exercise: String, store: PhotoStore) {
         try {
             takePicture.launch(store.captureUri())
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(context, "No camera app found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.no_camera), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -99,7 +102,7 @@ fun ExercisePhotoButton(exercise: String, store: PhotoStore) {
             onClick = {
                 when {
                     name.isEmpty() ->
-                        Toast.makeText(context, "Type an exercise name first", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.type_exercise_first), Toast.LENGTH_SHORT).show()
                     file != null -> viewerOpen = true
                     else -> menuOpen = true
                 }
@@ -110,17 +113,17 @@ fun ExercisePhotoButton(exercise: String, store: PhotoStore) {
             if (file != null && image != null) {
                 Image(
                     image,
-                    contentDescription = "Machine photo",
+                    contentDescription = stringResource(R.string.machine_photo),
                     modifier = Modifier.fillMaxSize().clip(CircleShape),
                     contentScale = ContentScale.Crop,
                 )
             } else {
-                Icon(Icons.Filled.AddAPhoto, contentDescription = "Add machine photo")
+                Icon(Icons.Filled.AddAPhoto, contentDescription = stringResource(R.string.add_machine_photo))
             }
         }
         DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
             DropdownMenuItem(
-                text = { Text("Take photo") },
+                text = { Text(stringResource(R.string.take_photo)) },
                 leadingIcon = { Icon(Icons.Filled.PhotoCamera, contentDescription = null) },
                 onClick = {
                     menuOpen = false
@@ -128,7 +131,7 @@ fun ExercisePhotoButton(exercise: String, store: PhotoStore) {
                 },
             )
             DropdownMenuItem(
-                text = { Text("Choose from gallery") },
+                text = { Text(stringResource(R.string.choose_from_gallery)) },
                 leadingIcon = { Icon(Icons.Filled.PhotoLibrary, contentDescription = null) },
                 onClick = {
                     menuOpen = false
@@ -149,24 +152,24 @@ fun ExercisePhotoButton(exercise: String, store: PhotoStore) {
                 full?.let {
                     Image(
                         it,
-                        contentDescription = "Machine photo for $name",
+                        contentDescription = stringResource(R.string.machine_photo_for, name),
                         modifier = Modifier.fillMaxWidth().heightIn(max = 480.dp).clip(RoundedCornerShape(12.dp)),
                         contentScale = ContentScale.Fit,
                     )
                 }
             },
-            confirmButton = { TextButton(onClick = { viewerOpen = false }) { Text("Close") } },
+            confirmButton = { TextButton(onClick = { viewerOpen = false }) { Text(stringResource(R.string.close)) } },
             dismissButton = {
                 Row {
                     TextButton(onClick = {
                         store.delete(name)
                         version++
                         viewerOpen = false
-                    }) { Text("Remove") }
+                    }) { Text(stringResource(R.string.remove)) }
                     TextButton(onClick = {
                         viewerOpen = false
                         takePhoto()
-                    }) { Text("Retake") }
+                    }) { Text(stringResource(R.string.retake)) }
                 }
             },
         )
@@ -185,7 +188,7 @@ fun ExercisePhotoThumb(exercise: String, store: PhotoStore) {
     if (file != null && loaded != null) {
         Image(
             loaded,
-            contentDescription = "Machine photo for $exercise",
+            contentDescription = stringResource(R.string.machine_photo_for, exercise),
             modifier = Modifier.size(64.dp).clip(RoundedCornerShape(8.dp)),
             contentScale = ContentScale.Crop,
         )
@@ -236,7 +239,7 @@ fun EditPhotoRow(exercise: String, edit: PhotoEdit, store: PhotoStore) {
         if (file != null && image != null) {
             Image(
                 image,
-                contentDescription = "Entry photo",
+                contentDescription = stringResource(R.string.entry_photo),
                 modifier = Modifier.size(64.dp).clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop,
             )
@@ -247,23 +250,23 @@ fun EditPhotoRow(exercise: String, edit: PhotoEdit, store: PhotoStore) {
                 TextButton(onClick = { menuOpen = true }) {
                     Icon(Icons.Filled.AddAPhoto, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(Modifier.width(6.dp))
-                    Text(if (file != null) "Change photo" else "Add photo")
+                    Text(if (file != null) stringResource(R.string.change_photo) else stringResource(R.string.add_photo))
                 }
                 DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                     DropdownMenuItem(
-                        text = { Text("Take photo") },
+                        text = { Text(stringResource(R.string.take_photo)) },
                         leadingIcon = { Icon(Icons.Filled.PhotoCamera, contentDescription = null) },
                         onClick = {
                             menuOpen = false
                             try {
                                 takePicture.launch(store.editCaptureUri())
                             } catch (e: ActivityNotFoundException) {
-                                Toast.makeText(context, "No camera app found", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.no_camera), Toast.LENGTH_SHORT).show()
                             }
                         },
                     )
                     DropdownMenuItem(
-                        text = { Text("Choose from gallery") },
+                        text = { Text(stringResource(R.string.choose_from_gallery)) },
                         leadingIcon = { Icon(Icons.Filled.PhotoLibrary, contentDescription = null) },
                         onClick = {
                             menuOpen = false
@@ -276,7 +279,7 @@ fun EditPhotoRow(exercise: String, edit: PhotoEdit, store: PhotoStore) {
                 TextButton(onClick = {
                     edit.staged = null
                     edit.removed = true
-                }) { Text("Remove photo") }
+                }) { Text(stringResource(R.string.remove_photo)) }
             }
         }
     }

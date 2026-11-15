@@ -1,5 +1,8 @@
 package com.geenedev.gymreps.ui
 
+import androidx.compose.ui.res.stringResource
+import com.geenedev.gymreps.R
+
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -176,7 +179,7 @@ fun LavaJarTimer(workMs: Long, totalMs: Long, modifier: Modifier = Modifier) {
                 Text("·", color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Text(
-                "Total ${Workout.formatDuration(totalMs)}",
+                stringResource(R.string.total, Workout.formatDuration(totalMs)),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

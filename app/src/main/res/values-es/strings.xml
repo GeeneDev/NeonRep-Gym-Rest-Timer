@@ -1,0 +1,168 @@
+<resources>
+    <!-- Common -->
+    <string name="cancel">Cancelar</string>
+    <string name="close">Cerrar</string>
+    <string name="delete">Eliminar</string>
+    <string name="edit">Editar</string>
+    <string name="save">Guardar</string>
+    <string name="done">Hecho</string>
+    <string name="start">Iniciar</string>
+    <string name="stop">Detener</string>
+    <string name="skip">Saltar</string>
+    <string name="remove">Quitar</string>
+    <string name="not_now">Ahora no</string>
+    <string name="exercise">Ejercicio</string>
+    <string name="notes">Notas</string>
+    <string name="notes_placeholder">Pesos, altura de la máquina…</string>
+    <string name="rest">Descanso</string>
+    <string name="choose_icon">Elegir icono</string>
+    <string name="type_exercise_first">Escribe primero el nombre de un ejercicio</string>
+    <plurals name="sets_count">
+        <item quantity="one">%d serie</item>
+        <item quantity="many">%d series</item>
+        <item quantity="other">%d series</item>
+    </plurals>
+    <plurals name="exercises_count">
+        <item quantity="one">%d ejercicio</item>
+        <item quantity="many">%d ejercicios</item>
+        <item quantity="other">%d ejercicios</item>
+    </plurals>
+
+    <!-- Permission dialogs -->
+    <string name="play_unreachable">No se puede acceder a Google Play ahora mismo. Inténtalo de nuevo en un momento.</string>
+    <string name="exact_alarm_title">Avisos de descanso puntuales</string>
+    <string name="exact_alarm_message">Para avisarte justo cuando termine el descanso, incluso con la pantalla bloqueada, permite que GymReps programe alarmas en la siguiente pantalla.</string>
+    <string name="allow">Permitir</string>
+    <string name="background_title">Avisos de descanso con la pantalla apagada</string>
+    <string name="background_message">El ahorro de batería del teléfono puede detener GymReps con la pantalla apagada, así que el aviso \"Descanso terminado\" podría no llegar. %1$s</string>
+    <string name="background_steps_honor">En la siguiente pantalla busca GymReps, desactiva \"Gestionar automáticamente\" y deja activado \"Ejecutar en segundo plano\".</string>
+    <string name="background_steps_other">En la siguiente pantalla elige \"Todas las aplicaciones\", busca GymReps y selecciona \"No optimizar\".</string>
+    <string name="open_settings">Abrir ajustes</string>
+
+    <!-- Info -->
+    <string name="info">Info</string>
+    <string name="info_feedback">Para sugerencias y mejoras escribe a %1$s\nTus comentarios y sugerencias siempre son bienvenidos.</string>
+    <string name="info_kofi">¿Te gusta la app?\nInvítame a un café</string>
+    <string name="language">Idioma</string>
+    <string name="language_system">Predeterminado del sistema</string>
+
+    <!-- Unlock popup -->
+    <plurals name="support_title">
+        <item quantity="one">¡Has registrado %d ejercicio!</item>
+        <item quantity="many">¡Has registrado %d ejercicios!</item>
+        <item quantity="other">¡Has registrado %d ejercicios!</item>
+    </plurals>
+    <string name="support_body">GymReps es gratis para tus primeros %1$d. Desbloquea la app completa una sola vez para quitar este mensaje para siempre y apoyar su desarrollo.</string>
+    <string name="unlock">Desbloquear GymReps</string>
+    <string name="unlock_with_price">Desbloquear GymReps · %1$s</string>
+    <string name="skip_in">Saltar en %1$ds</string>
+
+    <!-- Notifications -->
+    <string name="channel_timer">Temporizador de entrenamiento</string>
+    <string name="channel_timer_desc">Muestra el temporizador de la serie o del descanso durante el entrenamiento</string>
+    <string name="channel_rest_over">Descanso terminado</string>
+    <string name="channel_rest_over_desc">Te avisa cuando termina el descanso mientras la app está en segundo plano</string>
+    <string name="notif_set">Serie %1$d</string>
+    <string name="notif_set_resting">Serie %1$d - descansando</string>
+    <string name="notif_set_rest_over">Serie %1$d - descanso terminado</string>
+    <string name="notif_next_up">Siguiente: serie %1$d</string>
+    <string name="notif_working">En curso</string>
+    <string name="notif_time_for_set">Hora de la serie %1$d</string>
+    <string name="notif_time_for_set_of">Hora de la serie %1$d de %2$s</string>
+    <string name="skip_rest">Saltar descanso</string>
+
+    <!-- Main screen -->
+    <string name="congratulations">¡Enhorabuena!</string>
+    <string name="groups">Grupos</string>
+    <string name="saved_sets_of">Guardadas %1$s de %2$s</string>
+    <string name="saved_next">%1$s. Siguiente: %2$s</string>
+    <string name="saved_group_finished">%1$s. ¡%2$s terminado!</string>
+    <string name="type_exercise_then_done">Escribe primero el nombre de un ejercicio y luego pulsa Hecho</string>
+    <string name="history_empty">Pulsa Hecho después de tus series para guardarlas aquí.</string>
+    <string name="exercise_placeholder">p. ej. Press de banca</string>
+    <string name="clear">Borrar</string>
+    <string name="saved_exercises">Ejercicios guardados</string>
+    <string name="clear_notes">Borrar notas</string>
+    <string name="edit_rest_times">Editar tiempos de descanso</string>
+    <string name="one_set_less">1 serie</string>
+    <string name="reset">Reiniciar</string>
+    <string name="history">Historial</string>
+    <string name="history_summary">(%1$d - %2$.1fh)</string>
+    <string name="history_options">Opciones del historial</string>
+    <string name="clear_history">Borrar historial</string>
+    <string name="clear_history_q">¿Borrar el historial?</string>
+    <string name="clear_history_body">Todas las series guardadas se eliminarán de este teléfono.</string>
+    <string name="delete_entry_q">¿Eliminar la entrada?</string>
+    <string name="delete_entry_body">Se eliminará %1$s, %2$s del %3$s.</string>
+    <string name="pick_icon">Elige un icono</string>
+    <string name="rest_times">Tiempos de descanso</string>
+    <string name="remove_item">Quitar %1$s</string>
+    <string name="seconds">Segundos</string>
+    <string name="add_rest_time">Añadir tiempo de descanso</string>
+    <string name="core_start">EMPEZAR</string>
+    <string name="core_go">¡VAMOS!</string>
+    <string name="core_total">TOTAL %1$s</string>
+    <string name="total">Total %1$s</string>
+
+    <!-- History edit -->
+    <string name="edit_entry">Editar entrada</string>
+    <string name="saved_on">Guardado el %1$s</string>
+    <string name="sets">Series</string>
+    <string name="one_set_more_cd">Una serie más</string>
+    <string name="one_set_less_cd">Una serie menos</string>
+    <string name="time">Tiempo</string>
+    <string name="minutes_short">Min</string>
+    <string name="seconds_short">Seg</string>
+    <string name="rest_seconds">Descanso (segundos)</string>
+
+    <!-- Photos -->
+    <string name="no_camera">No se encontró ninguna app de cámara</string>
+    <string name="machine_photo">Foto de la máquina</string>
+    <string name="add_machine_photo">Añadir foto de la máquina</string>
+    <string name="machine_photo_for">Foto de la máquina para %1$s</string>
+    <string name="take_photo">Hacer foto</string>
+    <string name="choose_from_gallery">Elegir de la galería</string>
+    <string name="retake">Repetir</string>
+    <string name="entry_photo">Foto de la entrada</string>
+    <string name="change_photo">Cambiar foto</string>
+    <string name="add_photo">Añadir foto</string>
+    <string name="remove_photo">Quitar foto</string>
+
+    <!-- Groups -->
+    <string name="start_group_q">¿Iniciar %1$s?</string>
+    <string name="unsaved_sets_cleared">Tus %1$s sin guardar se borrarán.</string>
+    <string name="delete_group_q">¿Eliminar %1$s?</string>
+    <string name="delete_group_body">Se elimina el grupo. Tu historial se conserva.</string>
+    <string name="groups_empty">Junta ejercicios en un grupo, como \"Día de empuje\". Inícialo y Hecho te lleva de un ejercicio al siguiente.</string>
+    <string name="new_group">Nuevo grupo</string>
+    <string name="edit_group">Editar grupo</string>
+    <string name="group_in_progress">%1$s · en curso</string>
+    <string name="edit_item">Editar %1$s</string>
+    <string name="delete_item">Eliminar %1$s</string>
+    <string name="restart">Reiniciar</string>
+    <string name="back">Atrás</string>
+    <string name="group_name">Nombre del grupo</string>
+    <string name="group_name_placeholder">p. ej. Día de empuje</string>
+    <string name="exercises">Ejercicios</string>
+    <string name="group_add_hint">Añade ejercicios abajo. Se harán en este orden.</string>
+    <string name="group_drag_hint">Mantén pulsado un ejercicio y arrástralo para cambiar el orden.</string>
+    <string name="add_exercise">Añadir ejercicio</string>
+    <string name="add_exercise_placeholder">Escribe uno nuevo o elige abajo</string>
+    <string name="your_exercises">Tus ejercicios</string>
+    <string name="discard_changes_q">¿Descartar los cambios?</string>
+    <string name="discard_changes_body">Se perderán los cambios hechos en este grupo.</string>
+    <string name="discard">Descartar</string>
+    <string name="keep_editing">Seguir editando</string>
+    <string name="change_icon">Cambiar icono</string>
+    <string name="collapse">Contraer</string>
+    <string name="expand">Expandir</string>
+    <string name="done_cd">hecho</string>
+    <string name="stop_group">Detener grupo</string>
+    <string name="next_exercise">Ejercicio siguiente</string>
+    <string name="previous_exercise">Ejercicio anterior</string>
+    <string name="next_item">Siguiente: %1$s</string>
+    <string name="last_one">Último</string>
+    <string name="switch_to_q">¿Cambiar a %1$s?</string>
+    <string name="switch_body">Tus %1$s sin guardar se borrarán. Pulsa Hecho antes para conservarlas.</string>
+    <string name="switch_action">Cambiar</string>
+</resources>

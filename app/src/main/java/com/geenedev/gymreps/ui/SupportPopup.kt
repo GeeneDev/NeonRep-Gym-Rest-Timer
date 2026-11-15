@@ -1,5 +1,8 @@
 package com.geenedev.gymreps.ui
 
+import androidx.compose.ui.res.stringResource
+import com.geenedev.gymreps.R
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -70,15 +73,14 @@ fun SupportPopup(
             ) {
                 Icon(Icons.Filled.FitnessCenter, contentDescription = null, tint = Orange, modifier = Modifier.size(40.dp))
                 Text(
-                    "You've logged $entries exercises!",
+                    pluralRes(R.plurals.support_title, entries),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold,
                     color = AlabasterGrey,
                     textAlign = TextAlign.Center,
                 )
                 Text(
-                    "GymReps is free for your first ${Freemium.FREE_ENTRIES}. Unlock the full app once to remove " +
-                        "this message for good and support its development.",
+                    stringResource(R.string.support_body, Freemium.FREE_ENTRIES),
                     style = MaterialTheme.typography.bodyMedium,
                     color = TextMuted,
                     textAlign = TextAlign.Center,
@@ -88,7 +90,7 @@ fun SupportPopup(
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(containerColor = Orange, contentColor = OnOrange),
                 ) {
-                    Text(if (price != null) "Unlock GymReps · $price" else "Unlock GymReps", fontWeight = FontWeight.SemiBold)
+                    Text(if (price != null) stringResource(R.string.unlock_with_price, price) else stringResource(R.string.unlock), fontWeight = FontWeight.SemiBold)
                 }
                 TextButton(
                     onClick = onSkip,
@@ -99,7 +101,7 @@ fun SupportPopup(
                         disabledContentColor = TextMuted.copy(alpha = 0.6f),
                     ),
                 ) {
-                    Text(if (left > 0) "Skip in ${left}s" else "Skip")
+                    Text(if (left > 0) stringResource(R.string.skip_in, left) else stringResource(R.string.skip))
                 }
             }
         }

@@ -2,6 +2,9 @@
 
 package com.geenedev.gymreps.ui
 
+import androidx.compose.ui.res.stringResource
+import com.geenedev.gymreps.R
+
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.material.icons.filled.DragHandle
@@ -118,8 +121,10 @@ import com.geenedev.gymreps.model.Groups
 import com.geenedev.gymreps.model.SavedContext
 import com.geenedev.gymreps.model.Workout
 
-private fun exercisesLabel(n: Int) = if (n == 1) "1 exercise" else "$n exercises"
-private fun setsWord(n: Int) = if (n == 1) "1 set" else "$n sets"
+@Composable
+private fun exercisesLabel(n: Int) = pluralRes(R.plurals.exercises_count, n)
+@Composable
+private fun setsWord(n: Int) = pluralRes(R.plurals.sets_count, n)
 
 /**
  * Full-screen layer listing the groups: start one, edit, delete, or make a new one.
@@ -179,29 +184,29 @@ fun GroupsScreen(
         confirmStart?.let { group ->
             AlertDialog(
                 onDismissRequest = { confirmStart = null },
-                title = { Text("Start ${group.name}?") },
-                text = { Text("Your ${setsWord(unsavedSets)} not saved yet will be cleared.") },
+                title = { Text(stringResource(R.string.start_group_q, group.name)) },
+                text = { Text(stringResource(R.string.unsaved_sets_cleared, setsWord(unsavedSets))) },
                 confirmButton = {
                     TextButton(onClick = {
                         confirmStart = null
                         start(group)
-                    }) { Text("Start") }
+                    }) { Text(stringResource(R.string.start)) }
                 },
-                dismissButton = { TextButton(onClick = { confirmStart = null }) { Text("Cancel") } },
+                dismissButton = { TextButton(onClick = { confirmStart = null }) { Text(stringResource(R.string.cancel)) } },
             )
         }
         confirmDelete?.let { group ->
             AlertDialog(
                 onDismissRequest = { confirmDelete = null },
-                title = { Text("Delete ${group.name}?") },
-                text = { Text("The group is removed. Your history is kept.") },
+                title = { Text(stringResource(R.string.delete_group_q, group.name)) },
+                text = { Text(stringResource(R.string.delete_group_body)) },
                 confirmButton = {
                     TextButton(onClick = {
                         controller.deleteGroup(group.id)
                         confirmDelete = null
-                    }) { Text("Delete") }
+                    }) { Text(stringResource(R.string.delete)) }
                 },
-                dismissButton = { TextButton(onClick = { confirmDelete = null }) { Text("Cancel") } },
+                dismissButton = { TextButton(onClick = { confirmDelete = null }) { Text(stringResource(R.string.cancel)) } },
             )
         }
     }
@@ -220,8 +225,8 @@ private fun GroupList(
 ) {
     Column(Modifier.fillMaxSize()) {
         Row(Modifier.fillMaxWidth().padding(start = 4.dp, end = 16.dp, top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = onClose) { Icon(Icons.Filled.Close, contentDescription = "Close") }
-            Text("Groups", style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+            IconButton(onClick = onClose) { Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.close)) }
+            Text(stringResource(R.string.groups), style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
         }
         LazyColumn(
             modifier = Modifier.weight(1f),
@@ -231,8 +236,7 @@ private fun GroupList(
             if (groups.isEmpty()) {
                 item {
                     Text(
-                        "Put exercises together in a group, like \"Push day\". Start it and Done takes you " +
-                            "from one exercise to the next.",
+                        stringResource(R.string.groups_empty),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -255,7 +259,7 @@ private fun GroupList(
         ) {
             Icon(Icons.Filled.Add, contentDescription = null)
             Spacer(Modifier.width(8.dp))
-            Text("New group")
+            Text(stringResource(R.string.new_group))
         }
     }
 }
@@ -279,13 +283,13 @@ private fun GroupCard(
                         fontWeight = FontWeight.SemiBold,
                     )
                     Text(
-                        if (active) "${exercisesLabel(group.items.size)} · in progress" else exercisesLabel(group.items.size),
+                        if (active) stringResource(R.string.group_in_progress, exercisesLabel(group.items.size)) else exercisesLabel(group.items.size),
                         style = MaterialTheme.typography.labelMedium,
                         color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
-                IconButton(onClick = onEdit) { Icon(Icons.Filled.Edit, contentDescription = "Edit ${group.name}") }
-                IconButton(onClick = onDelete) { Icon(Icons.Filled.Delete, contentDescription = "Delete ${group.name}") }
+                IconButton(onClick = onEdit) { Icon(Icons.Filled.Edit, contentDescription = stringResource(R.string.edit_item, group.name)) }
+                IconButton(onClick = onDelete) { Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.delete_item, group.name)) }
             }
             if (group.items.isNotEmpty()) {
                 Spacer(Modifier.height(8.dp))
@@ -304,14 +308,14 @@ private fun GroupCard(
                     OutlinedButton(onClick = onStop) {
                         Icon(Icons.Filled.Stop, contentDescription = null)
                         Spacer(Modifier.width(6.dp))
-                        Text("Stop")
+                        Text(stringResource(R.string.stop))
                     }
                     Spacer(Modifier.width(8.dp))
                 }
                 Button(onClick = onStart, enabled = group.items.isNotEmpty()) {
                     Icon(Icons.Filled.PlayArrow, contentDescription = null)
                     Spacer(Modifier.width(6.dp))
-                    Text(if (active) "Restart" else "Start")
+                    Text(if (active) stringResource(R.string.restart) else stringResource(R.string.start))
                 }
             }
         }
@@ -353,16 +357,16 @@ private fun GroupEditor(
 
     Column(Modifier.fillMaxSize().imePadding()) {
         Row(Modifier.fillMaxWidth().padding(start = 4.dp, end = 8.dp, top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = { cancel() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back") }
+            IconButton(onClick = { cancel() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back)) }
             Text(
-                if (initial.id == 0L) "New group" else "Edit group",
+                if (initial.id == 0L) stringResource(R.string.new_group) else stringResource(R.string.edit_group),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.weight(1f),
             )
             TextButton(
                 onClick = { onSave(initial.copy(name = name.trim(), items = items)) },
                 enabled = canSave,
-            ) { Text("Save") }
+            ) { Text(stringResource(R.string.save)) }
         }
         LazyColumn(
             modifier = Modifier.weight(1f),
@@ -374,8 +378,8 @@ private fun GroupEditor(
                     value = name,
                     onValueChange = { name = it.take(40) },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Group name") },
-                    placeholder = { Text("e.g. Push day") },
+                    label = { Text(stringResource(R.string.group_name)) },
+                    placeholder = { Text(stringResource(R.string.group_name_placeholder)) },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         capitalization = KeyboardCapitalization.Sentences,
@@ -386,7 +390,7 @@ private fun GroupEditor(
             }
             item {
                 Text(
-                    "Exercises",
+                    stringResource(R.string.exercises),
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier.padding(top = 8.dp),
                 )
@@ -394,7 +398,7 @@ private fun GroupEditor(
             if (items.isEmpty()) {
                 item {
                     Text(
-                        "Add exercises below. They run in this order.",
+                        stringResource(R.string.group_add_hint),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -404,7 +408,7 @@ private fun GroupEditor(
                 if (items.size > 1) {
                     item {
                         Text(
-                            "Hold an exercise and drag it to change the order.",
+                            stringResource(R.string.group_drag_hint),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -423,15 +427,15 @@ private fun GroupEditor(
                 Spacer(Modifier.height(8.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     FilledTonalIconButton(onClick = { pickingIconFor = -1 }, modifier = Modifier.size(56.dp)) {
-                        Icon(ContextIcons.forKey(newIcon), contentDescription = "Choose icon")
+                        Icon(ContextIcons.forKey(newIcon), contentDescription = stringResource(R.string.choose_icon))
                     }
                     Spacer(Modifier.width(12.dp))
                     OutlinedTextField(
                         value = newName,
                         onValueChange = { newName = it },
                         modifier = Modifier.weight(1f),
-                        label = { Text("Add exercise") },
-                        placeholder = { Text("Type a new one or pick below") },
+                        label = { Text(stringResource(R.string.add_exercise)) },
+                        placeholder = { Text(stringResource(R.string.add_exercise_placeholder)) },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.Sentences,
@@ -441,7 +445,7 @@ private fun GroupEditor(
                     )
                     Spacer(Modifier.width(4.dp))
                     IconButton(onClick = { addTyped() }, enabled = newName.isNotBlank()) {
-                        Icon(Icons.Filled.Add, contentDescription = "Add exercise")
+                        Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.add_exercise))
                     }
                 }
             }
@@ -449,7 +453,7 @@ private fun GroupEditor(
             if (suggestions.isNotEmpty()) {
                 item {
                     Text(
-                        "Your exercises",
+                        stringResource(R.string.your_exercises),
                         style = MaterialTheme.typography.labelLarge,
                         modifier = Modifier.padding(top = 8.dp),
                     )
@@ -492,15 +496,15 @@ private fun GroupEditor(
     if (confirmDiscard) {
         AlertDialog(
             onDismissRequest = { confirmDiscard = false },
-            title = { Text("Discard changes?") },
-            text = { Text("What you changed in this group will be lost.") },
+            title = { Text(stringResource(R.string.discard_changes_q)) },
+            text = { Text(stringResource(R.string.discard_changes_body)) },
             confirmButton = {
                 TextButton(onClick = {
                     confirmDiscard = false
                     onCancel()
-                }) { Text("Discard") }
+                }) { Text(stringResource(R.string.discard)) }
             },
-            dismissButton = { TextButton(onClick = { confirmDiscard = false }) { Text("Keep editing") } },
+            dismissButton = { TextButton(onClick = { confirmDiscard = false }) { Text(stringResource(R.string.keep_editing)) } },
         )
     }
 }
@@ -632,7 +636,7 @@ private fun GroupItemRow(
                 modifier = Modifier.width(20.dp),
             )
             IconButton(onClick = onIconClick) {
-                Icon(ContextIcons.forKey(item.iconKey), contentDescription = "Change icon")
+                Icon(ContextIcons.forKey(item.iconKey), contentDescription = stringResource(R.string.change_icon))
             }
             Text(
                 item.name,
@@ -642,7 +646,7 @@ private fun GroupItemRow(
                 modifier = Modifier.weight(1f),
             )
             IconButton(onClick = onRemove) {
-                Icon(Icons.Filled.Close, contentDescription = "Remove ${item.name}")
+                Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.remove_item, item.name))
             }
         }
     }
@@ -846,7 +850,7 @@ fun GroupRunStrip(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable(onClickLabel = if (expanded) "Collapse" else "Expand") { expanded = !expanded }
+                    .clickable(onClickLabel = if (expanded) stringResource(R.string.collapse) else stringResource(R.string.expand)) { expanded = !expanded }
                     .pointerInput(Unit) {
                         // Raw finger travel decides the swipe; dragX only draws it.
                         var total = 0f
@@ -906,7 +910,7 @@ fun GroupRunStrip(
                             if (currentCleared) {
                                 Icon(
                                     Icons.Filled.Check,
-                                    contentDescription = "done",
+                                    contentDescription = stringResource(R.string.done_cd),
                                     tint = ClearedGreen,
                                     modifier = Modifier.size(18.dp),
                                 )
@@ -940,11 +944,11 @@ fun GroupRunStrip(
                 }
                 if (expanded) {
                     IconButton(onClick = controller::stop) {
-                        Icon(Icons.Filled.Stop, contentDescription = "Stop group")
+                        Icon(Icons.Filled.Stop, contentDescription = stringResource(R.string.stop_group))
                     }
                 } else {
                     IconButton(onClick = { slideTo(nextIndex, -1) }, enabled = nextIndex != null) {
-                        Icon(Icons.Filled.SkipNext, contentDescription = "Next exercise", modifier = Modifier.size(30.dp))
+                        Icon(Icons.Filled.SkipNext, contentDescription = stringResource(R.string.next_exercise), modifier = Modifier.size(30.dp))
                     }
                 }
             }
@@ -956,10 +960,10 @@ fun GroupRunStrip(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
                 ) {
                     FilledTonalIconButton(onClick = { slideTo(prevIndex, +1) }, enabled = prevIndex != null) {
-                        Icon(Icons.Filled.SkipPrevious, contentDescription = "Previous exercise")
+                        Icon(Icons.Filled.SkipPrevious, contentDescription = stringResource(R.string.previous_exercise))
                     }
                     Text(
-                        upcoming?.let { "Next: ${group.items[it].name}" } ?: "Last one",
+                        upcoming?.let { stringResource(R.string.next_item, group.items[it].name) } ?: stringResource(R.string.last_one),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center,
@@ -968,7 +972,7 @@ fun GroupRunStrip(
                         modifier = Modifier.weight(1f).padding(horizontal = 8.dp),
                     )
                     FilledIconButton(onClick = { slideTo(nextIndex, -1) }, enabled = nextIndex != null) {
-                        Icon(Icons.Filled.SkipNext, contentDescription = "Next exercise")
+                        Icon(Icons.Filled.SkipNext, contentDescription = stringResource(R.string.next_exercise))
                     }
                 }
                 // Keeps the chip of the exercise up now in view.
@@ -996,7 +1000,7 @@ fun GroupRunStrip(
                             leadingIcon = {
                                 Icon(
                                     if (done && !isCurrent) Icons.Filled.Check else ContextIcons.forKey(item.iconKey),
-                                    contentDescription = if (done) "done" else null,
+                                    contentDescription = if (done) stringResource(R.string.done_cd) else null,
                                     modifier = Modifier.size(FilterChipDefaults.IconSize),
                                 )
                             },
@@ -1034,15 +1038,15 @@ fun GroupRunStrip(
     confirmJump?.let { index ->
         AlertDialog(
             onDismissRequest = { confirmJump = null },
-            title = { Text("Switch to ${group.items[index].name}?", maxLines = 2, overflow = TextOverflow.Ellipsis) },
-            text = { Text("Your ${setsWord(unsavedSets)} not saved yet will be cleared. Press Done first to keep them.") },
+            title = { Text(stringResource(R.string.switch_to_q, group.items[index].name), maxLines = 2, overflow = TextOverflow.Ellipsis) },
+            text = { Text(stringResource(R.string.switch_body, setsWord(unsavedSets))) },
             confirmButton = {
                 TextButton(onClick = {
                     confirmJump = null
                     controller.jumpTo(index)
-                }) { Text("Switch") }
+                }) { Text(stringResource(R.string.switch_action)) }
             },
-            dismissButton = { TextButton(onClick = { confirmJump = null }) { Text("Cancel") } },
+            dismissButton = { TextButton(onClick = { confirmJump = null }) { Text(stringResource(R.string.cancel)) } },
         )
     }
 }

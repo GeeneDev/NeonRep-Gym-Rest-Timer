@@ -8,7 +8,7 @@ import android.os.SystemClock
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -39,7 +39,7 @@ import com.geenedev.gymreps.ui.WorkoutScreen
 import com.geenedev.gymreps.ui.WorkoutViewModel
 import com.geenedev.gymreps.ui.theme.GymRepsTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     private val premium by lazy { Premium.get(this) }
     private val notificationPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { askForExactAlarmsOnce() }
@@ -122,7 +122,7 @@ class MainActivity : ComponentActivity() {
                             if (!premium.buy(this@MainActivity)) {
                                 Toast.makeText(
                                     this@MainActivity,
-                                    "Google Play isn't reachable right now. Try again in a moment.",
+                                    getString(R.string.play_unreachable),
                                     Toast.LENGTH_LONG,
                                 ).show()
                             }
@@ -177,12 +177,9 @@ class MainActivity : ComponentActivity() {
         }
         prefs.edit().putBoolean("askedExactAlarms", true).apply()
         android.app.AlertDialog.Builder(this)
-            .setTitle("On-time rest alerts")
-            .setMessage(
-                "To alert you exactly when your rest ends, even with the screen locked, " +
-                    "allow GymReps to set alarms on the next screen.",
-            )
-            .setPositiveButton("Allow") { _, _ ->
+            .setTitle(R.string.exact_alarm_title)
+            .setMessage(R.string.exact_alarm_message)
+            .setPositiveButton(R.string.allow) { _, _ ->
                 startActivity(
                     android.content.Intent(
                         android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
@@ -190,7 +187,7 @@ class MainActivity : ComponentActivity() {
                     ),
                 )
             }
-            .setNegativeButton("Not now", null)
+            .setNegativeButton(R.string.not_now, null)
             .show()
     }
 
@@ -208,19 +205,15 @@ class MainActivity : ComponentActivity() {
         val maker = Build.MANUFACTURER.lowercase()
         val honor = maker.contains("honor") || maker.contains("huawei")
         val steps = if (honor) {
-            "On the next screen find GymReps, turn off \"Manage automatically\" and keep " +
-                "\"Run in background\" on."
+            getString(R.string.background_steps_honor)
         } else {
-            "On the next screen choose \"All apps\", find GymReps and set it to \"Don't optimize\"."
+            getString(R.string.background_steps_other)
         }
         android.app.AlertDialog.Builder(this)
-            .setTitle("Rest alerts with the screen off")
-            .setMessage(
-                "Your phone's battery saver can stop GymReps when the screen is off, so the " +
-                    "\"Rest over\" alert may not arrive. $steps",
-            )
-            .setPositiveButton("Open settings") { _, _ -> openBackgroundSettings(honor) }
-            .setNegativeButton("Not now", null)
+            .setTitle(R.string.background_title)
+            .setMessage(getString(R.string.background_message, steps))
+            .setPositiveButton(R.string.open_settings) { _, _ -> openBackgroundSettings(honor) }
+            .setNegativeButton(R.string.not_now, null)
             .show()
     }
 

@@ -49,16 +49,16 @@ object TimerNotifications {
         // Throws if a foreground service notification still uses it; it is retried next launch.
         runCatching { nm.deleteNotificationChannel(OLD_CHANNEL_TIMER) }
         nm.createNotificationChannel(
-            NotificationChannel(CHANNEL_TIMER, "Workout timer", NotificationManager.IMPORTANCE_DEFAULT).apply {
-                description = "Shows the set or rest timer while a workout is running"
+            NotificationChannel(CHANNEL_TIMER, context.getString(R.string.channel_timer), NotificationManager.IMPORTANCE_DEFAULT).apply {
+                description = context.getString(R.string.channel_timer_desc)
                 setSound(null, null)
                 enableVibration(false)
                 setShowBadge(true)
             },
         )
         nm.createNotificationChannel(
-            NotificationChannel(CHANNEL_ALERTS, "Rest over", NotificationManager.IMPORTANCE_HIGH).apply {
-                description = "Alerts you when the rest countdown ends while the app is in the background"
+            NotificationChannel(CHANNEL_ALERTS, context.getString(R.string.channel_rest_over), NotificationManager.IMPORTANCE_HIGH).apply {
+                description = context.getString(R.string.channel_rest_over_desc)
                 enableVibration(true)
                 vibrationPattern = longArrayOf(0, 250, 150, 250)
                 setShowBadge(true)
@@ -98,23 +98,23 @@ object TimerNotifications {
             // The system counts down to restEndsAt itself (header and Live Update chip), so the
             // timer keeps moving even if this process is frozen or asleep and never re-posts.
             // No shortCriticalText here: it would replace the live countdown in the chip with static text.
-            b.setContentTitle("Set ${session.sets} - resting")
-                .setContentText(name ?: "Next up: set ${session.sets + 1}")
+            b.setContentTitle(context.getString(R.string.notif_set_resting, session.sets))
+                .setContentText(name ?: context.getString(R.string.notif_next_up, session.sets + 1))
                 .setWhen(wall(restEndsAt))
                 .setChronometerCountDown(true)
                 .setColor(GREY)
-                .addAction(action(context, "Skip rest", TimerService.ACTION_SKIP_REST, 1))
+                .addAction(action(context, context.getString(R.string.skip_rest), TimerService.ACTION_SKIP_REST, 1))
         } else {
             val since = session.workStartedAt ?: session.startedAt ?: nowElapsed
             // After a rest: "Set 3 - rest over". Before the first set: "Set 1".
-            val label = if (session.sets == 0) "Set 1" else "Set ${session.sets} - rest over"
+            val label = if (session.sets == 0) context.getString(R.string.notif_set, 1) else context.getString(R.string.notif_set_rest_over, session.sets)
             val next = session.sets + 1
             b.setContentTitle(label)
                 .setContentText(
                     when {
-                        !alerting -> name ?: "Working"
-                        name != null -> "Time for set $next of $name"
-                        else -> "Time for set $next"
+                        !alerting -> name ?: context.getString(R.string.notif_working)
+                        name != null -> context.getString(R.string.notif_time_for_set_of, next, name)
+                        else -> context.getString(R.string.notif_time_for_set, next)
                     },
                 )
                 .setWhen(wall(since))
@@ -125,7 +125,7 @@ object TimerNotifications {
                 .addAction(
                     action(
                         context,
-                        "Rest",
+                        context.getString(R.string.rest),
                         TimerService.ACTION_SET_DONE,
                         2,
                     ),
@@ -181,8 +181,8 @@ object TimerNotifications {
             val name = snapshot.exercise.ifBlank { null }
             val n = Notification.Builder(context, CHANNEL_ALERTS)
                 .setSmallIcon(R.drawable.ic_stat_timer)
-                .setContentTitle("Set ${s.sets} - rest over")
-                .setContentText(if (name != null) "Time for set $next of $name" else "Time for set $next")
+                .setContentTitle(context.getString(R.string.notif_set_rest_over, s.sets))
+                .setContentText(if (name != null) context.getString(R.string.notif_time_for_set_of, next, name) else context.getString(R.string.notif_time_for_set, next))
                 .setCategory(Notification.CATEGORY_REMINDER)
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .setColor(ORANGE)

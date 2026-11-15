@@ -1,5 +1,8 @@
 package com.geenedev.gymreps.ui
 
+import androidx.compose.ui.res.stringResource
+import com.geenedev.gymreps.R
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -77,7 +80,7 @@ fun HistoryEditDialog(
                     .padding(20.dp),
                 verticalArrangement = Arrangement.spacedBy(14.dp),
             ) {
-                Text("Edit entry", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                Text(stringResource(R.string.edit_entry), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
 
                 // Read-only: when the exercise was saved.
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -89,7 +92,7 @@ fun HistoryEditDialog(
                     )
                     Spacer(Modifier.width(6.dp))
                     Text(
-                        "Saved $date",
+                        stringResource(R.string.saved_on, date),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -97,13 +100,13 @@ fun HistoryEditDialog(
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     FilledTonalIconButton(onClick = { showIconPicker = true }, modifier = Modifier.size(56.dp)) {
-                        Icon(ContextIcons.forKey(iconKey), contentDescription = "Choose icon")
+                        Icon(ContextIcons.forKey(iconKey), contentDescription = stringResource(R.string.choose_icon))
                     }
                     Spacer(Modifier.width(12.dp))
                     OutlinedTextField(
                         value = name,
                         onValueChange = { name = it },
-                        label = { Text("Exercise") },
+                        label = { Text(stringResource(R.string.exercise)) },
                         singleLine = true,
                         isError = name.isBlank(),
                         keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
@@ -114,10 +117,10 @@ fun HistoryEditDialog(
                 photo()
 
                 Column {
-                    Text("Sets", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.sets), style = MaterialTheme.typography.labelLarge)
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         FilledTonalIconButton(onClick = { if (sets > 1) sets-- }, enabled = sets > 1) {
-                            Icon(Icons.Filled.Remove, contentDescription = "One set less")
+                            Icon(Icons.Filled.Remove, contentDescription = stringResource(R.string.one_set_less_cd))
                         }
                         Text(
                             sets.toString(),
@@ -126,34 +129,34 @@ fun HistoryEditDialog(
                             modifier = Modifier.width(64.dp),
                         )
                         FilledTonalIconButton(onClick = { if (sets < 999) sets++ }) {
-                            Icon(Icons.Filled.Add, contentDescription = "One set more")
+                            Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.one_set_more_cd))
                         }
                     }
                 }
 
                 Column {
-                    Text("Time", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.time), style = MaterialTheme.typography.labelLarge)
                     Spacer(Modifier.height(4.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        NumberField(minutes, { minutes = it }, "Min", Modifier.weight(1f), maxLength = 3)
-                        NumberField(seconds, { seconds = it }, "Sec", Modifier.weight(1f), maxLength = 2)
+                        NumberField(minutes, { minutes = it }, stringResource(R.string.minutes_short), Modifier.weight(1f), maxLength = 3)
+                        NumberField(seconds, { seconds = it }, stringResource(R.string.seconds_short), Modifier.weight(1f), maxLength = 2)
                     }
                 }
 
-                NumberField(rest, { rest = it }, "Rest (seconds)", Modifier.fillMaxWidth(), maxLength = 4)
+                NumberField(rest, { rest = it }, stringResource(R.string.rest_seconds), Modifier.fillMaxWidth(), maxLength = 4)
 
                 OutlinedTextField(
                     value = notes,
                     onValueChange = { notes = it },
-                    label = { Text("Notes") },
-                    placeholder = { Text("Weights, machine height…") },
+                    label = { Text(stringResource(R.string.notes)) },
+                    placeholder = { Text(stringResource(R.string.notes_placeholder)) },
                     maxLines = 4,
                     keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
                     modifier = Modifier.fillMaxWidth(),
                 )
 
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    TextButton(onClick = onDismiss) { Text("Cancel") }
+                    TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
                     Spacer(Modifier.width(8.dp))
                     Button(
                         enabled = canSave,
@@ -171,7 +174,7 @@ fun HistoryEditDialog(
                                 ),
                             )
                         },
-                    ) { Text("Save") }
+                    ) { Text(stringResource(R.string.save)) }
                 }
             }
         }

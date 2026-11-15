@@ -10,8 +10,10 @@ activityCompose = "1.8.0"
 composeBom = "2024.04.01"
 billing = "8.0.0"
 fragment = "1.6.2"
+appcompat = "1.7.0"
 
 [libraries]
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 android-billing = { group = "com.android.billingclient", name = "billing", version.ref = "billing" }
 androidx-fragment = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

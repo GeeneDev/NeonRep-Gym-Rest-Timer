@@ -72,8 +72,8 @@ object RestAlarm {
         )
         val n = Notification.Builder(context, TimerNotifications.CHANNEL_ALERTS)
             .setSmallIcon(R.drawable.ic_stat_timer)
-            .setContentTitle("Set $sets - rest over")
-            .setContentText(if (name != null) "Time for set ${sets + 1} of $name" else "Time for set ${sets + 1}")
+            .setContentTitle(context.getString(R.string.notif_set_rest_over, sets))
+            .setContentText(if (name != null) context.getString(R.string.notif_time_for_set_of, sets + 1, name) else context.getString(R.string.notif_time_for_set, sets + 1))
             .setCategory(Notification.CATEGORY_REMINDER)
             .setVisibility(Notification.VISIBILITY_PUBLIC)
             .setAutoCancel(true)
@@ -141,6 +141,6 @@ object RestAlarm {
 
 class RestAlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        RestAlarm.onAlarm(context, intent)
+        RestAlarm.onAlarm(com.geenedev.gymreps.data.AppLanguage.wrap(context), intent)
     }
 }

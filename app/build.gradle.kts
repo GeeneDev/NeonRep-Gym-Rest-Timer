@@ -55,6 +55,13 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    bundle {
+        // Ship every language in the base APK, so the in-app language switch works even when the
+        // phone itself is set to another language (Play would otherwise only install the phone's).
+        language {
+            enableSplit = false
+        }
+    }
     buildFeatures {
         compose = true
     }
@@ -72,6 +79,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.appcompat) // per-app language (Italian / Spanish / English)
     implementation(libs.android.billing)
     implementation(libs.androidx.fragment) // billing pulls in fragment 1.1, too old for registerForActivityResult
     testImplementation(libs.junit)

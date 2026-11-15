@@ -1,3 +1,167 @@
 <resources>
-    <string name="app_name">Gym Reps</string>
+    <string name="app_name" translatable="false">Gym Reps</string>
+
+    <!-- Common -->
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="done">Done</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="skip">Skip</string>
+    <string name="remove">Remove</string>
+    <string name="not_now">Not now</string>
+    <string name="exercise">Exercise</string>
+    <string name="notes">Notes</string>
+    <string name="notes_placeholder">Weights, machine height…</string>
+    <string name="rest">Rest</string>
+    <string name="choose_icon">Choose icon</string>
+    <string name="type_exercise_first">Type an exercise name first</string>
+    <plurals name="sets_count">
+        <item quantity="one">%d set</item>
+        <item quantity="other">%d sets</item>
+    </plurals>
+    <plurals name="exercises_count">
+        <item quantity="one">%d exercise</item>
+        <item quantity="other">%d exercises</item>
+    </plurals>
+
+    <!-- Permission dialogs -->
+    <string name="play_unreachable">Google Play isn\'t reachable right now. Try again in a moment.</string>
+    <string name="exact_alarm_title">On-time rest alerts</string>
+    <string name="exact_alarm_message">To alert you exactly when your rest ends, even with the screen locked, allow GymReps to set alarms on the next screen.</string>
+    <string name="allow">Allow</string>
+    <string name="background_title">Rest alerts with the screen off</string>
+    <string name="background_message">Your phone\'s battery saver can stop GymReps when the screen is off, so the \"Rest over\" alert may not arrive. %1$s</string>
+    <string name="background_steps_honor">On the next screen find GymReps, turn off \"Manage automatically\" and keep \"Run in background\" on.</string>
+    <string name="background_steps_other">On the next screen choose \"All apps\", find GymReps and set it to \"Don\'t optimize\".</string>
+    <string name="open_settings">Open settings</string>
+
+    <!-- Info -->
+    <string name="info">Info</string>
+    <string name="info_feedback">For suggestions and improvement send a mail to %1$s\nI gladly welcome feedbacks and suggestions.</string>
+    <string name="info_kofi">Liked the application?\nBuy me a coffee</string>
+    <string name="language">Language</string>
+    <string name="language_system">System default</string>
+
+    <!-- Unlock popup -->
+    <plurals name="support_title">
+        <item quantity="one">You\'ve logged %d exercise!</item>
+        <item quantity="other">You\'ve logged %d exercises!</item>
+    </plurals>
+    <string name="support_body">GymReps is free for your first %1$d. Unlock the full app once to remove this message for good and support its development.</string>
+    <string name="unlock">Unlock GymReps</string>
+    <string name="unlock_with_price">Unlock GymReps · %1$s</string>
+    <string name="skip_in">Skip in %1$ds</string>
+
+    <!-- Notifications -->
+    <string name="channel_timer">Workout timer</string>
+    <string name="channel_timer_desc">Shows the set or rest timer while a workout is running</string>
+    <string name="channel_rest_over">Rest over</string>
+    <string name="channel_rest_over_desc">Alerts you when the rest countdown ends while the app is in the background</string>
+    <string name="notif_set">Set %1$d</string>
+    <string name="notif_set_resting">Set %1$d - resting</string>
+    <string name="notif_set_rest_over">Set %1$d - rest over</string>
+    <string name="notif_next_up">Next up: set %1$d</string>
+    <string name="notif_working">Working</string>
+    <string name="notif_time_for_set">Time for set %1$d</string>
+    <string name="notif_time_for_set_of">Time for set %1$d of %2$s</string>
+    <string name="skip_rest">Skip rest</string>
+
+    <!-- Main screen -->
+    <string name="congratulations">Congratulations!</string>
+    <string name="groups">Groups</string>
+    <string name="saved_sets_of">Saved %1$s of %2$s</string>
+    <string name="saved_next">%1$s. Next: %2$s</string>
+    <string name="saved_group_finished">%1$s. %2$s finished!</string>
+    <string name="type_exercise_then_done">Type an exercise name first, then press Done</string>
+    <string name="history_empty">Press Done after your sets to keep them here.</string>
+    <string name="exercise_placeholder">e.g. Bench press</string>
+    <string name="clear">Clear</string>
+    <string name="saved_exercises">Saved exercises</string>
+    <string name="clear_notes">Clear notes</string>
+    <string name="edit_rest_times">Edit rest times</string>
+    <string name="one_set_less">1 set</string>
+    <string name="reset">Reset</string>
+    <string name="history">History</string>
+    <string name="history_summary">(%1$d - %2$.1fh)</string>
+    <string name="history_options">History options</string>
+    <string name="clear_history">Clear history</string>
+    <string name="clear_history_q">Clear history?</string>
+    <string name="clear_history_body">All saved sets will be deleted from this phone.</string>
+    <string name="delete_entry_q">Delete entry?</string>
+    <string name="delete_entry_body">%1$s, %2$s on %3$s will be removed.</string>
+    <string name="pick_icon">Pick an icon</string>
+    <string name="rest_times">Rest times</string>
+    <string name="remove_item">Remove %1$s</string>
+    <string name="seconds">Seconds</string>
+    <string name="add_rest_time">Add rest time</string>
+    <string name="core_start">START</string>
+    <string name="core_go">GO!</string>
+    <string name="core_total">TOTAL %1$s</string>
+    <string name="total">Total %1$s</string>
+
+    <!-- History edit -->
+    <string name="edit_entry">Edit entry</string>
+    <string name="saved_on">Saved %1$s</string>
+    <string name="sets">Sets</string>
+    <string name="one_set_more_cd">One set more</string>
+    <string name="one_set_less_cd">One set less</string>
+    <string name="time">Time</string>
+    <string name="minutes_short">Min</string>
+    <string name="seconds_short">Sec</string>
+    <string name="rest_seconds">Rest (seconds)</string>
+
+    <!-- Photos -->
+    <string name="no_camera">No camera app found</string>
+    <string name="machine_photo">Machine photo</string>
+    <string name="add_machine_photo">Add machine photo</string>
+    <string name="machine_photo_for">Machine photo for %1$s</string>
+    <string name="take_photo">Take photo</string>
+    <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="retake">Retake</string>
+    <string name="entry_photo">Entry photo</string>
+    <string name="change_photo">Change photo</string>
+    <string name="add_photo">Add photo</string>
+    <string name="remove_photo">Remove photo</string>
+
+    <!-- Groups -->
+    <string name="start_group_q">Start %1$s?</string>
+    <string name="unsaved_sets_cleared">Your %1$s not saved yet will be cleared.</string>
+    <string name="delete_group_q">Delete %1$s?</string>
+    <string name="delete_group_body">The group is removed. Your history is kept.</string>
+    <string name="groups_empty">Put exercises together in a group, like \"Push day\". Start it and Done takes you from one exercise to the next.</string>
+    <string name="new_group">New group</string>
+    <string name="edit_group">Edit group</string>
+    <string name="group_in_progress">%1$s · in progress</string>
+    <string name="edit_item">Edit %1$s</string>
+    <string name="delete_item">Delete %1$s</string>
+    <string name="restart">Restart</string>
+    <string name="back">Back</string>
+    <string name="group_name">Group name</string>
+    <string name="group_name_placeholder">e.g. Push day</string>
+    <string name="exercises">Exercises</string>
+    <string name="group_add_hint">Add exercises below. They run in this order.</string>
+    <string name="group_drag_hint">Hold an exercise and drag it to change the order.</string>
+    <string name="add_exercise">Add exercise</string>
+    <string name="add_exercise_placeholder">Type a new one or pick below</string>
+    <string name="your_exercises">Your exercises</string>
+    <string name="discard_changes_q">Discard changes?</string>
+    <string name="discard_changes_body">What you changed in this group will be lost.</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep editing</string>
+    <string name="change_icon">Change icon</string>
+    <string name="collapse">Collapse</string>
+    <string name="expand">Expand</string>
+    <string name="done_cd">done</string>
+    <string name="stop_group">Stop group</string>
+    <string name="next_exercise">Next exercise</string>
+    <string name="previous_exercise">Previous exercise</string>
+    <string name="next_item">Next: %1$s</string>
+    <string name="last_one">Last one</string>
+    <string name="switch_to_q">Switch to %1$s?</string>
+    <string name="switch_body">Your %1$s not saved yet will be cleared. Press Done first to keep them.</string>
+    <string name="switch_action">Switch</string>
 </resources>

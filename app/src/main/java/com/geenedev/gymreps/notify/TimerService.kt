@@ -36,6 +36,11 @@ class TimerService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
+    // Notification text in the in-app language (Android 12 and older need this).
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(com.geenedev.gymreps.data.AppLanguage.wrap(base))
+    }
+
     override fun onCreate() {
         super.onCreate()
         running = true

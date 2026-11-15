@@ -2,6 +2,10 @@
 
 package com.geenedev.gymreps.ui
 
+import androidx.compose.ui.res.stringResource
+import com.geenedev.gymreps.R
+import androidx.compose.runtime.saveable.rememberSaveable
+
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -150,6 +154,7 @@ fun WorkoutScreen(
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
     val focusManager = LocalFocusManager.current
+    val res = LocalContext.current.resources
     var showIconPicker by remember { mutableStateOf(false) }
     var showRestEditor by remember { mutableStateOf(false) }
     // History entry open in the long-press Edit card.
@@ -160,7 +165,8 @@ fun WorkoutScreen(
     val appContext = LocalContext.current.applicationContext
     val groups = remember(vm) { GroupsController(GroupStore(appContext), vm) }
     var showGroups by remember { mutableStateOf(false) }
-    var showInfo by remember { mutableStateOf(false) }
+    // Saveable so Info stays open when picking a language restarts the screen.
+    var showInfo by rememberSaveable { mutableStateOf(false) }
 
     val session = vm.session
     val ticking = session.isRunning
@@ -200,7 +206,7 @@ fun WorkoutScreen(
                                 if (taps >= 3) {
                                     taps = 0
                                     haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    celebration.burst("Congratulations!")
+                                    celebration.burst(res.getString(R.string.congratulations))
                                 }
                             }
                         },
@@ -208,10 +214,10 @@ fun WorkoutScreen(
                 },
                 actions = {
                     IconButton(onClick = { showInfo = true }) {
-                        Icon(Icons.Outlined.Info, contentDescription = "Info")
+                        Icon(Icons.Outlined.Info, contentDescription = stringResource(R.string.info))
                     }
                     IconButton(onClick = { showGroups = true }) {
-                        Icon(Icons.AutoMirrored.Filled.PlaylistPlay, contentDescription = "Groups")
+                        Icon(Icons.AutoMirrored.Filled.PlaylistPlay, contentDescription = stringResource(R.string.groups))
                     }
                 },
             )
@@ -308,14 +314,14 @@ fun WorkoutScreen(
                                 // The name field empties; drop its focus so the saved-exercises
                                 // list doesn't pop open (and no keyboard shows).
                                 focusManager.clearFocus()
-                                val saved = "Saved ${setsLabel(sets)} of $name"
+                                val saved = res.getString(R.string.saved_sets_of, res.setsLabel(sets), name)
                                 when (groups.onSaved()) {
-                                    is GroupAdvance.Next -> "$saved. Next: ${vm.contextText}"
-                                    GroupAdvance.Finished -> "$saved. $groupName finished!"
+                                    is GroupAdvance.Next -> res.getString(R.string.saved_next, saved, vm.contextText)
+                                    GroupAdvance.Finished -> res.getString(R.string.saved_group_finished, saved, groupName)
                                     null -> saved
                                 }
                             }
-                            SaveResult.NotSavedNoContext -> "Type an exercise name first, then press Done"
+                            SaveResult.NotSavedNoContext -> res.getString(R.string.type_exercise_then_done)
                             SaveResult.NothingToSave -> null
                         }
                         if (message != null) scope.launch { snackbar.showSnackbar(message) }
@@ -337,7 +343,7 @@ fun WorkoutScreen(
             if (vm.history.isEmpty()) {
                 item {
                     Text(
-                        "Press Done after your sets to keep them here.",
+                        stringResource(R.string.history_empty),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -470,7 +476,7 @@ private fun ContextPicker(
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         FilledTonalIconButton(onClick = onIconClick, modifier = Modifier.size(56.dp)) {
-            Icon(ContextIcons.forKey(iconKey), contentDescription = "Choose icon")
+            Icon(ContextIcons.forKey(iconKey), contentDescription = stringResource(R.string.choose_icon))
         }
         Spacer(Modifier.width(12.dp))
         Box(Modifier.weight(1f).onGloballyPositioned { fieldBottomPx = it.boundsInWindow().bottom }) {
@@ -485,8 +491,8 @@ private fun ContextPicker(
                     onFocusChange(it.isFocused)
                     if (it.isFocused) dismissed = false
                 },
-                label = { Text("Exercise") },
-                placeholder = { Text("e.g. Bench press") },
+                label = { Text(stringResource(R.string.exercise)) },
+                placeholder = { Text(stringResource(R.string.exercise_placeholder)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences,
@@ -497,7 +503,7 @@ private fun ContextPicker(
                     if (text.isNotEmpty()) {
                         // Clearing leaves the keyboard as it was.
                         IconButton(onClick = { onTextChange("") }) {
-                            Icon(Icons.Filled.Close, contentDescription = "Clear")
+                            Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.clear))
                         }
                     } else if (contexts.isNotEmpty()) {
                         IconButton(onClick = {
@@ -511,7 +517,7 @@ private fun ContextPicker(
                         }) {
                             Icon(
                                 if (menuOpen) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown,
-                                contentDescription = "Saved exercises",
+                                contentDescription = stringResource(R.string.saved_exercises),
                             )
                         }
                     }
@@ -553,14 +559,14 @@ private fun NotesField(text: String, onTextChange: (String) -> Unit) {
         value = text,
         onValueChange = onTextChange,
         modifier = Modifier.fillMaxWidth(),
-        label = { Text("Notes") },
-        placeholder = { Text("Weights, machine height…") },
+        label = { Text(stringResource(R.string.notes)) },
+        placeholder = { Text(stringResource(R.string.notes_placeholder)) },
         maxLines = 4,
         keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
         trailingIcon = {
             if (text.isNotEmpty()) {
                 IconButton(onClick = { onTextChange("") }) {
-                    Icon(Icons.Filled.Close, contentDescription = "Clear notes")
+                    Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.clear_notes))
                 }
             }
         },
@@ -575,7 +581,7 @@ private fun RestPresets(
     onEdit: () -> Unit,
 ) {
     Column {
-        Text("Rest", style = MaterialTheme.typography.labelLarge)
+        Text(stringResource(R.string.rest), style = MaterialTheme.typography.labelLarge)
         Row(verticalAlignment = Alignment.CenterVertically) {
             Row(
                 modifier = Modifier.weight(1f).horizontalScroll(rememberScrollState()),
@@ -592,13 +598,12 @@ private fun RestPresets(
             }
             // Pinned outside the scrolling chips so it is always visible.
             FilledTonalIconButton(onClick = onEdit) {
-                Icon(Icons.Filled.Edit, contentDescription = "Edit rest times")
+                Icon(Icons.Filled.Edit, contentDescription = stringResource(R.string.edit_rest_times))
             }
         }
     }
 }
 
-private fun setsLabel(n: Int) = if (n == 1) "1 set" else "$n sets"
 
 @Composable
 private fun SetActions(
@@ -611,12 +616,12 @@ private fun SetActions(
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         val mod = Modifier.weight(1f)
         if (session.isResting) {
-            ActionButton(Icons.Filled.SkipNext, "Skip", onSkip, mod)
+            ActionButton(Icons.Filled.SkipNext, stringResource(R.string.skip), onSkip, mod)
         } else {
-            ActionButton(Icons.Filled.Remove, "1 set", onMinusOne, mod, enabled = session.sets > 0)
+            ActionButton(Icons.Filled.Remove, stringResource(R.string.one_set_less), onMinusOne, mod, enabled = session.sets > 0)
         }
-        ActionButton(Icons.Filled.RestartAlt, "Reset", onReset, mod, enabled = session.isRunning)
-        ActionButton(Icons.Filled.Check, "Done", onSave, mod, enabled = session.sets > 0, primary = true)
+        ActionButton(Icons.Filled.RestartAlt, stringResource(R.string.reset), onReset, mod, enabled = session.isRunning)
+        ActionButton(Icons.Filled.Check, stringResource(R.string.done), onSave, mod, enabled = session.sets > 0, primary = true)
     }
 }
 
@@ -649,14 +654,14 @@ private fun ActionButton(
 private fun HistoryHeader(count: Int, totalMs: Long, onClear: () -> Unit) {
     val hasHistory = count > 0
     // Total hours with one decimal, e.g. "(12 - 3.4h)".
-    val summary = "($count - ${"%.1f".format(Locale.getDefault(), totalMs / 3_600_000.0)}h)"
+    val summary = stringResource(R.string.history_summary, count, totalMs / 3_600_000.0)
     var menuOpen by remember { mutableStateOf(false) }
     var confirmClear by remember { mutableStateOf(false) }
 
     Row(Modifier.fillMaxWidth().padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
         Icon(Icons.Filled.History, contentDescription = null)
         Spacer(Modifier.width(8.dp))
-        Text("History", style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.history), style = MaterialTheme.typography.titleLarge)
         Spacer(Modifier.width(8.dp))
         Text(
             summary,
@@ -666,11 +671,11 @@ private fun HistoryHeader(count: Int, totalMs: Long, onClear: () -> Unit) {
         )
         Box {
             IconButton(onClick = { menuOpen = true }) {
-                Icon(Icons.Filled.MoreVert, contentDescription = "History options")
+                Icon(Icons.Filled.MoreVert, contentDescription = stringResource(R.string.history_options))
             }
             DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                 DropdownMenuItem(
-                    text = { Text("Clear history") },
+                    text = { Text(stringResource(R.string.clear_history)) },
                     leadingIcon = { Icon(Icons.Filled.DeleteSweep, contentDescription = null) },
                     enabled = hasHistory,
                     onClick = {
@@ -685,16 +690,16 @@ private fun HistoryHeader(count: Int, totalMs: Long, onClear: () -> Unit) {
     if (confirmClear) {
         AlertDialog(
             onDismissRequest = { confirmClear = false },
-            title = { Text("Clear history?") },
-            text = { Text("All saved sets will be deleted from this phone.") },
+            title = { Text(stringResource(R.string.clear_history_q)) },
+            text = { Text(stringResource(R.string.clear_history_body)) },
             confirmButton = {
                 TextButton(onClick = {
                     onClear()
                     confirmClear = false
-                }) { Text("Clear") }
+                }) { Text(stringResource(R.string.clear)) }
             },
             dismissButton = {
-                TextButton(onClick = { confirmClear = false }) { Text("Cancel") }
+                TextButton(onClick = { confirmClear = false }) { Text(stringResource(R.string.cancel)) }
             },
         )
     }
@@ -753,7 +758,7 @@ private fun HistoryRow(
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        HistoryStat(Icons.Filled.Repeat, setsLabel(entry.sets))
+                        HistoryStat(Icons.Filled.Repeat, pluralRes(R.plurals.sets_count, entry.sets))
                         HistoryStat(Icons.Filled.Timer, Workout.formatDuration(entry.durationMs))
                         if (entry.restSeconds > 0) {
                             HistoryStat(Icons.Filled.Hotel, Workout.formatRest(entry.restSeconds))
@@ -783,7 +788,7 @@ private fun HistoryRow(
         ) {
         DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
             DropdownMenuItem(
-                text = { Text("Edit") },
+                text = { Text(stringResource(R.string.edit)) },
                 leadingIcon = { Icon(Icons.Filled.Edit, contentDescription = null) },
                 onClick = {
                     menuOpen = false
@@ -791,7 +796,7 @@ private fun HistoryRow(
                 },
             )
             DropdownMenuItem(
-                text = { Text("Delete") },
+                text = { Text(stringResource(R.string.delete)) },
                 leadingIcon = { Icon(Icons.Filled.Delete, contentDescription = null) },
                 onClick = {
                     menuOpen = false
@@ -805,16 +810,16 @@ private fun HistoryRow(
     if (confirmDelete) {
         AlertDialog(
             onDismissRequest = { confirmDelete = false },
-            title = { Text("Delete entry?") },
-            text = { Text("${entry.context}, ${setsLabel(entry.sets)} on $date will be removed.") },
+            title = { Text(stringResource(R.string.delete_entry_q)) },
+            text = { Text(stringResource(R.string.delete_entry_body, entry.context, pluralRes(R.plurals.sets_count, entry.sets), date)) },
             confirmButton = {
                 TextButton(onClick = {
                     confirmDelete = false
                     onDelete()
-                }) { Text("Delete") }
+                }) { Text(stringResource(R.string.delete)) }
             },
             dismissButton = {
-                TextButton(onClick = { confirmDelete = false }) { Text("Cancel") }
+                TextButton(onClick = { confirmDelete = false }) { Text(stringResource(R.string.cancel)) }
             },
         )
     }
@@ -903,7 +908,7 @@ fun HistoryIcon(entry: HistoryEntry, size: androidx.compose.ui.unit.Dp = 48.dp) 
 internal fun IconPickerDialog(selected: String, onPick: (String) -> Unit, onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Pick an icon") },
+        title = { Text(stringResource(R.string.pick_icon)) },
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -926,7 +931,7 @@ internal fun IconPickerDialog(selected: String, onPick: (String) -> Unit, onDism
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Close") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.close)) } },
     )
 }
 
@@ -941,14 +946,14 @@ private fun RestPresetsDialog(
     val seconds = input.toIntOrNull()
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Rest times") },
+        title = { Text(stringResource(R.string.rest_times)) },
         text = {
             Column {
                 presets.forEach { preset ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(Workout.formatRest(preset), modifier = Modifier.weight(1f))
                         IconButton(onClick = { onRemove(preset) }, enabled = presets.size > 1) {
-                            Icon(Icons.Filled.Delete, contentDescription = "Remove ${Workout.formatRest(preset)}")
+                            Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.remove_item, Workout.formatRest(preset)))
                         }
                     }
                 }
@@ -957,7 +962,7 @@ private fun RestPresetsDialog(
                     OutlinedTextField(
                         value = input,
                         onValueChange = { new -> input = new.filter(Char::isDigit).take(4) },
-                        label = { Text("Seconds") },
+                        label = { Text(stringResource(R.string.seconds)) },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.weight(1f),
@@ -969,12 +974,12 @@ private fun RestPresetsDialog(
                         },
                         enabled = seconds != null && seconds > 0,
                     ) {
-                        Icon(Icons.Filled.Add, contentDescription = "Add rest time")
+                        Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.add_rest_time))
                     }
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Done") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.done)) } },
     )
 }
 
