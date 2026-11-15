@@ -2,7 +2,7 @@
 
 ## Privacy policy
 
-URL to paste in Play Console: https://geenedev.github.io/NeonRep-Gym-Rest-Timer/privacy.html (Italian: privacy-it.html, Spanish: privacy-es.html). Source: docs/ in this repo, served by GitHub Pages.
+URL to paste in Play Console: https://humorous-rabbit.staticdomains.app/ (hosted on static.app; source is docs/index.html in this repo).
 
 Original draft text (the live page supersedes it):
 

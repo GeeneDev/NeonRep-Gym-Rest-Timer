@@ -44,7 +44,7 @@
     <string name="info_feedback">For suggestions and improvement send a mail to %1$s\nI gladly welcome feedbacks and suggestions.</string>
     <string name="info_kofi">Liked the application?\nBuy me a coffee</string>
     <string name="info_privacy">Privacy policy</string>
-    <string name="privacy_url">https://geenedev.github.io/NeonRep-Gym-Rest-Timer/privacy.html</string>
+    <string name="privacy_url" translatable="false">https://humorous-rabbit.staticdomains.app/</string>
     <string name="language">Language</string>
     <string name="language_system">System default</string>
 
