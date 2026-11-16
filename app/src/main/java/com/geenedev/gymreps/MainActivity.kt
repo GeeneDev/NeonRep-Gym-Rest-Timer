@@ -13,13 +13,13 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import android.widget.Toast
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.geenedev.gymreps.billing.Premium
+import com.geenedev.gymreps.billing.buyWithFeedback
 import com.geenedev.gymreps.model.Freemium
 import com.geenedev.gymreps.ui.SupportPopup
 import kotlinx.coroutines.delay
@@ -118,15 +118,7 @@ class MainActivity : AppCompatActivity() {
                         entries = entries,
                         skipSeconds = Freemium.skipSeconds(entries),
                         price = premium.price,
-                        onBuy = {
-                            if (!premium.buy(this@MainActivity)) {
-                                Toast.makeText(
-                                    this@MainActivity,
-                                    getString(R.string.play_unreachable),
-                                    Toast.LENGTH_LONG,
-                                ).show()
-                            }
-                        },
+                        onBuy = { premium.buyWithFeedback(this@MainActivity) },
                         onSkip = {
                             premium.lastSkipAt = System.currentTimeMillis()
                             now = premium.lastSkipAt

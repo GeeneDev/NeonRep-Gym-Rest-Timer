@@ -48,6 +48,19 @@
     <string name="language">Language</string>
     <string name="language_system">System default</string>
 
+    <!-- Version / purchase (Info page) -->
+    <string name="version_full">Full version</string>
+    <string name="version_limited">Limited version</string>
+    <string name="version_number">Version %1$s</string>
+    <string name="version_full_body">Everything is unlocked. Thank you so much for supporting NeonRep!</string>
+    <string name="version_limited_body">Free for your first %1$d logged exercises. Unlock the full version once to remove the reminder for good and support development.</string>
+    <string name="purchase">Purchase full version</string>
+    <string name="purchase_with_price">Purchase full version · %1$s</string>
+    <string name="restore_purchase">Restore purchase</string>
+    <string name="restore_done">Purchase restored. Welcome back, and thank you!</string>
+    <string name="restore_none">No purchase found for this Google account.</string>
+    <string name="product_unavailable">The full version isn\'t available in the store yet. Please try again later.</string>
+
     <!-- Unlock popup -->
     <plurals name="support_title">
         <item quantity="one">You\'ve logged %d exercise!</item>
