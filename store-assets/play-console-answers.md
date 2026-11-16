@@ -1,6 +1,10 @@
 # GymReps: Play Console answers (draft)
 
-## Privacy policy (host it, for example on GitHub Pages or Google Sites, and paste the URL)
+## Privacy policy
+
+URL to paste in Play Console: https://humorous-rabbit.staticdomains.app/ (hosted on static.app; source is docs/index.html in this repo).
+
+Original draft text (the live page supersedes it):
 
 **Gym Reps Privacy Policy** (last updated 14 November 2026)
 

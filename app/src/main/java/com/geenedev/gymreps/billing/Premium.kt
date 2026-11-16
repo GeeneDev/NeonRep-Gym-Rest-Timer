@@ -2,6 +2,8 @@ package com.geenedev.gymreps.billing
 
 import android.app.Activity
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -39,6 +41,11 @@ class Premium private constructor(context: Context) {
 
     private var product: ProductDetails? = null
 
+    /** True when Play answered but has no "gymreps_full" product (not created or not active yet). */
+    private var productMissing = false
+
+    private val main = Handler(Looper.getMainLooper())
+
     private val client: BillingClient = BillingClient.newBuilder(context.applicationContext)
         .setListener { result, purchases ->
             if (result.responseCode == BillingClient.BillingResponseCode.OK) handle(purchases.orEmpty())
@@ -61,18 +68,56 @@ class Premium private constructor(context: Context) {
         })
     }
 
+    /** Outcome of asking Play to open its purchase sheet. */
+    enum class BuyStart { STARTED, STORE_UNREACHABLE, PRODUCT_UNAVAILABLE }
+
+    /** Outcome of a "Restore purchase" tap. */
+    enum class RestoreResult { RESTORED, NOTHING_FOUND, STORE_UNREACHABLE }
+
     /**
-     * Opens Play's purchase sheet. Returns false when the store isn't reachable or the product
-     * isn't set up in Play Console yet (the caller then says so).
+     * Opens Play's purchase sheet. When the store isn't reachable or the product isn't set up in
+     * Play Console yet, says which so the caller can tell the user.
      */
-    fun buy(activity: Activity): Boolean {
-        val details = product ?: run { loadProduct(); return false }
+    fun buy(activity: Activity): BuyStart {
+        if (!client.isReady) return BuyStart.STORE_UNREACHABLE
+        val details = product ?: run {
+            loadProduct()
+            return if (productMissing) BuyStart.PRODUCT_UNAVAILABLE else BuyStart.STORE_UNREACHABLE
+        }
         val params = BillingFlowParams.newBuilder()
             .setProductDetailsParamsList(
                 listOf(BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(details).build()),
             )
             .build()
-        return client.launchBillingFlow(activity, params).responseCode == BillingClient.BillingResponseCode.OK
+        return if (client.launchBillingFlow(activity, params).responseCode == BillingClient.BillingResponseCode.OK) {
+            BuyStart.STARTED
+        } else {
+            BuyStart.STORE_UNREACHABLE
+        }
+    }
+
+    /**
+     * "Restore purchase": asks Play what this Google account owns, acknowledges and unlocks.
+     * [onResult] runs on the main thread.
+     */
+    fun restore(onResult: (RestoreResult) -> Unit) {
+        if (!client.isReady) {
+            onResult(RestoreResult.STORE_UNREACHABLE)
+            return
+        }
+        client.queryPurchasesAsync(
+            QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP).build(),
+        ) { result, purchases ->
+            val outcome = if (result.responseCode != BillingClient.BillingResponseCode.OK) {
+                RestoreResult.STORE_UNREACHABLE
+            } else {
+                val owned = purchases.any { PRODUCT_ID in it.products && it.purchaseState == Purchase.PurchaseState.PURCHASED }
+                storeUnlocked(owned)
+                handle(purchases)
+                if (owned) RestoreResult.RESTORED else RestoreResult.NOTHING_FOUND
+            }
+            main.post { onResult(outcome) }
+        }
     }
 
     /** Asks Play what this account owns (also restores the unlock after a reinstall). */
@@ -101,6 +146,7 @@ class Premium private constructor(context: Context) {
         client.queryProductDetailsAsync(params) { result, details ->
             if (result.responseCode != BillingClient.BillingResponseCode.OK) return@queryProductDetailsAsync
             product = details.productDetailsList.firstOrNull { it.productId == PRODUCT_ID }
+            productMissing = product == null
             price = product?.oneTimePurchaseOfferDetails?.formattedPrice
         }
     }

@@ -43,8 +43,22 @@
     <string name="info">Info</string>
     <string name="info_feedback">Para sugerencias y mejoras escribe a %1$s\nTus comentarios y sugerencias siempre son bienvenidos.</string>
     <string name="info_kofi">¿Te gusta la app?\nInvítame a un café</string>
+    <string name="info_privacy">Política de privacidad</string>
     <string name="language">Idioma</string>
     <string name="language_system">Predeterminado del sistema</string>
+
+    <!-- Version / purchase (Info page) -->
+    <string name="version_full">Versión completa</string>
+    <string name="version_limited">Versión limitada</string>
+    <string name="version_number">Versión %1$s</string>
+    <string name="version_full_body">Todo está desbloqueado. ¡Muchísimas gracias por apoyar NeonRep!</string>
+    <string name="version_limited_body">Gratis para tus primeros %1$d ejercicios registrados. Desbloquea la versión completa una sola vez para quitar el recordatorio para siempre y apoyar el desarrollo.</string>
+    <string name="purchase">Comprar la versión completa</string>
+    <string name="purchase_with_price">Comprar la versión completa · %1$s</string>
+    <string name="restore_purchase">Restaurar compra</string>
+    <string name="restore_done">Compra restaurada. ¡Bienvenido de nuevo y gracias!</string>
+    <string name="restore_none">No se encontró ninguna compra para esta cuenta de Google.</string>
+    <string name="product_unavailable">La versión completa aún no está disponible en la tienda. Inténtalo más tarde.</string>
 
     <!-- Unlock popup -->
     <plurals name="support_title">

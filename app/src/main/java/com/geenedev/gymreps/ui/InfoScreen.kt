@@ -25,6 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.LocalCafe
 import androidx.compose.material.icons.filled.MailOutline
+import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -47,11 +48,30 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.geenedev.gymreps.ui.theme.PrussianBlue
+import com.geenedev.gymreps.ui.theme.AlabasterGrey
+import com.geenedev.gymreps.ui.theme.Line
+import com.geenedev.gymreps.ui.theme.OnOrange
+import com.geenedev.gymreps.ui.theme.Orange
+import com.geenedev.gymreps.ui.theme.TextMuted
+import com.geenedev.gymreps.billing.Premium
+import com.geenedev.gymreps.billing.buyWithFeedback
+import com.geenedev.gymreps.billing.findActivity
+import com.geenedev.gymreps.billing.restoreWithFeedback
+import com.geenedev.gymreps.model.Freemium
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.material.icons.filled.LockOpen
+import androidx.compose.material.icons.filled.Restore
+import androidx.compose.material.icons.filled.WorkspacePremium
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.runtime.remember
+import androidx.compose.ui.text.font.FontWeight
 
 private const val FEEDBACK_EMAIL = "biagiodev1701@duck.com"
 private const val KOFI_LINK_0 = "https://ko-fi.com/ebg"
 
-/** Info page: language, feedback contact and the Ko-fi link. A full-screen layer like Groups. */
+/** Info page: language, feedback contact, the Ko-fi link and the privacy policy. A full-screen layer like Groups. */
 @Composable
 fun InfoScreen(onDismiss: () -> Unit) {
     val context = LocalContext.current
@@ -99,6 +119,19 @@ fun InfoScreen(onDismiss: () -> Unit) {
                             textDecoration = TextDecoration.Underline,
                         )
                     }
+                    val privacyUrl = stringResource(R.string.privacy_url)
+                    InfoCard(
+                        icon = Icons.Filled.PrivacyTip,
+                        onClick = { open(Intent(Intent.ACTION_VIEW, Uri.parse(privacyUrl))) },
+                    ) {
+                        Text(
+                            stringResource(R.string.info_privacy),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.primary,
+                            textDecoration = TextDecoration.Underline,
+                        )
+                    }
+                    VersionCard()
                 }
             }
         }
@@ -152,6 +185,80 @@ private fun LanguageCard() {
                         Text(label, style = MaterialTheme.typography.bodyLarge)
                     }
                 }
+            }
+        }
+    }
+}
+
+/**
+ * Version status (Full / Limited) with Purchase and Restore purchase buttons.
+ * Purchase is hidden once the full version is owned.
+ */
+@Composable
+private fun VersionCard() {
+    val context = LocalContext.current
+    val premium = remember { Premium.get(context) }
+    val full = premium.unlocked
+    val price = premium.price
+    val versionName = remember {
+        try {
+            context.packageManager.getPackageInfo(context.packageName, 0).versionName
+        } catch (_: Exception) {
+            null
+        }
+    }
+    ElevatedCard(
+        Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)),
+        colors = CardDefaults.elevatedCardColors(containerColor = PrussianBlue),
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    if (full) Icons.Filled.WorkspacePremium else Icons.Filled.LockOpen,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(28.dp),
+                )
+                Spacer(Modifier.width(12.dp))
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        stringResource(if (full) R.string.version_full else R.string.version_limited),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = if (full) Orange else AlabasterGrey,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                    if (versionName != null) {
+                        Text(stringResource(R.string.version_number, versionName), style = MaterialTheme.typography.bodySmall, color = TextMuted)
+                    }
+                }
+            }
+            Text(
+                if (full) stringResource(R.string.version_full_body)
+                else stringResource(R.string.version_limited_body, Freemium.FREE_ENTRIES),
+                style = MaterialTheme.typography.bodyMedium,
+                color = TextMuted,
+            )
+            if (!full) {
+                Button(
+                    onClick = { context.findActivity()?.let { premium.buyWithFeedback(it) } },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(containerColor = Orange, contentColor = OnOrange),
+                ) {
+                    Text(
+                        if (price != null) stringResource(R.string.purchase_with_price, price) else stringResource(R.string.purchase),
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }
+            }
+            OutlinedButton(
+                onClick = { premium.restoreWithFeedback(context) },
+                modifier = Modifier.fillMaxWidth(),
+                border = BorderStroke(1.dp, Line),
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = AlabasterGrey),
+            ) {
+                Icon(Icons.Filled.Restore, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(8.dp))
+                Text(stringResource(R.string.restore_purchase))
             }
         }
     }
